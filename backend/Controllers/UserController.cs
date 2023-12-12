@@ -29,8 +29,12 @@ public class UserController : ControllerBase
         ).ToArray()
         );
     }
-    public async Task<IActionResult> GetUserById(CancellationToken cancellationToken, int id){
-        return Ok();
+    public async Task<IActionResult> GetUserById([FromRoute] int id, CancellationToken cancellationToken){
+        var user = _dbContext.Users.FindAsync(id, cancellationToken);
+        if(user is null){
+            return NotFound(id);
+        }
+        return Ok(_mapper.Map<User, GetUserDTO>(cancellationToken));
     }
 
 }
