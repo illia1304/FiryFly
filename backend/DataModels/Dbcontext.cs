@@ -8,10 +8,11 @@ namespace backend.DataModels
     public class Dbcontext:DbContext
     {
         public DbSet<User> Users{get; set;}
-        public DbSet<Longread> longreads{get;set;}
-        public DbSet<Commment> commments{get; set;}
+        public DbSet<Longread> Longreads{get;set;}
+        public DbSet<Commment> Commments{get; set;}
 
-        public Dbcontext(DbContextOptionsBuilder optionsBuilder):base(){
+        public Dbcontext(DbContextOptions optionsBuilder)
+            :base(optionsBuilder){
             
         }
     }
