@@ -30,7 +30,6 @@ public class UserController : ControllerBase
             {
                 Id = user.User_id,
                 Nickname = user.Nickname,
-               // FollowersCount = user.Followers_count
             };
         }).ToArray();
 
@@ -46,7 +45,6 @@ public class UserController : ControllerBase
         {
             Id = user.User_id,
             Nickname = user.Nickname,
-            //FollowersCount = user.Followers_count
         };
         return Ok(dto);
     }

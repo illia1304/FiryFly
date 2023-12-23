@@ -8,6 +8,5 @@ namespace backend.DTO.UserDTO
     {
         public int Id{get;set;}
         public string? Nickname{get;set;}
-        public int Followers_count{get;set;}
     }
 }
