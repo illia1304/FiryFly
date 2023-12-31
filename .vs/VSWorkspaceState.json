@@ -5,8 +5,9 @@
     "\\backend\\Controllers",
     "\\backend\\DataModels",
     "\\backend\\DTO",
+    "\\backend\\DTO\\LongreadsDTO",
     "\\backend\\DTO\\UsersDTO"
   ],
-  "SelectedNode": "\\backend\\Controllers\\UserController.cs",
+  "SelectedNode": "\\backend\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

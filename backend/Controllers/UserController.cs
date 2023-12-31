@@ -21,24 +21,49 @@ public class UserController : ControllerBase
         _dbContext = dbcontext;
     }
 
-    [HttpGet("")]
-    public async Task<IActionResult> AllAsync(CancellationToken cancellationToken, [FromQuery] int start = 0, [FromQuery] int count = 10){
+    [HttpGet("AllUsers")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> AllAsync(CancellationToken cancellationToken, [FromQuery] int start = 0, [FromQuery] int count = 10)
+    {
         var all = await _dbContext.Users.Skip(start).Take(count).ToListAsync(cancellationToken);
-        var dto = all.Select(user =>
+        var dto = all.Select(User => new GetUserDTO
         {
-            return new GetUserDTO
-            {
-                Id = user.User_id,
-                Nickname = user.Nickname,
-            };
+            Id = User.User_id,
+            Nickname = User.Nickname,
         }).ToArray();
 
         return Ok(dto);
     }
+
+    [HttpPost("CreateUser")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDTO createUserDTO, CancellationToken cancellationToken)
+    {
+        // Manually create the User entity from DTO properties
+        var user = new User
+        {
+            Name = createUserDTO.Name,
+            Surname = createUserDTO.Surname,
+            Nickname = createUserDTO.Nickname,
+            Email = createUserDTO.Email,
+        };
+
+        var createdUser = await _dbContext.Users.AddAsync(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Ok(createdUser.Entity.User_id);
+    }
+
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById([FromRoute] int id, CancellationToken cancellationToken){
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetUserById([FromRoute] int id, CancellationToken cancellationToken)
+    {
         var user = await _dbContext.Users.FindAsync(id, cancellationToken);
-        if(user is null){
+        if (user is null)
+        {
             return NotFound(id);
         }
         GetUserDTO dto = new GetUserDTO
@@ -47,25 +72,6 @@ public class UserController : ControllerBase
             Nickname = user.Nickname,
         };
         return Ok(dto);
-    }
-
-    [HttpPost("")]
-    public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDTO createUserDTO, CancellationToken cancellationToken)
-    {
-        // Відобразити властивості з CreateUserDTO на об'єкт User
-        var user = new User
-        {
-            Name = createUserDTO.Name,
-            Email = createUserDTO.Email,
-            Surname = createUserDTO.Surname,
-            Nickname = createUserDTO.Nickname
-        };
-
-        // Додати об'єкт User до бази даних
-        _dbContext.Users.Add(user); // Використовуйте Add, а не AddAsync тут
-        await _dbContext.SaveChangesAsync();
-
-        return Ok(user);
     }
 
 }
