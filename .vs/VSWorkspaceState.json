@@ -8,6 +8,6 @@
     "\\backend\\DTO\\LongreadsDTO",
     "\\backend\\DTO\\UsersDTO"
   ],
-  "SelectedNode": "\\backend\\Program.cs",
+  "SelectedNode": "\\backend\\DataModels\\Comment.cs",
   "PreviewInSolutionExplorer": false
 }

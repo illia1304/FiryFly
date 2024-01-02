@@ -47,13 +47,13 @@ public class UserController : ControllerBase
             Name = createUserDTO.Name,
             Surname = createUserDTO.Surname,
             Nickname = createUserDTO.Nickname,
-            Email = createUserDTO.Email,
+            Email = createUserDTO.Email
         };
 
         var createdUser = await _dbContext.Users.AddAsync(user);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Ok(createdUser.Entity.User_id);
+        return Ok(user);
     }
 
     [HttpGet("{id}")]

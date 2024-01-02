@@ -27,8 +27,6 @@ public class LongreadController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateLongread(CancellationToken cancellationToken, LongreadDTO longreadDTO){
        int authorId = longreadDTO.AuthorId;
-
-        // Шукаємо автора в базі даних
         User user = await _dbContext.Users.FirstOrDefaultAsync(x => x.User_id == authorId);
         if(user == null){
             return NotFound(user);
