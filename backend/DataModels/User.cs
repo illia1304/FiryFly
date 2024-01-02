@@ -27,9 +27,9 @@ namespace backend.DataModels
         [Column("email")]
         public string? Email { get; set; }
 
-        [Required]
+        /*[Required]
         [DataType(DataType.Password)]
         [Column ("passwordHash")]
-        public string? PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }*/
     }
 }
