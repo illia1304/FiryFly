@@ -12,16 +12,16 @@ namespace backend.DataModels
         public int Comment_id { get; set; }
         [Column("comment_text")]
         public string? Comment_text { get; set; }
-        [ForeignKey(nameof(autor_id))]
-        [Column("autor_id")]
-        public User autor { get; set; } = new User();
-        public int autor_id { get; set; }
+        [ForeignKey(nameof(Autor_id))]
+        [Column("author_id")]
+        public User Author { get; set; } = new User();
+        public int Autor_id { get; set; }
 
-        [ForeignKey(nameof(longread_idcoment))]
+        [ForeignKey(nameof(Longread_idcoment))]
         [Column("longread_idcoment")]
-        public Longread longreads { get; set; } = new Longread();
-        public int longread_idcoment { get; set; }
+        public Longread Longreads { get; set; } = new Longread();
+        public int Longread_idcoment { get; set; }
         [Column("created")]
-        public DateTime created { get; set; }
+        public DateTime Created { get; set; }
     }
 }

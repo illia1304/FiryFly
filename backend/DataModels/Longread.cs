@@ -13,17 +13,17 @@ namespace backend.DataModels
         [Column("title")]
         public string? Title { get; set; }
         [Column("content_text")]
-        public string? content_text { get; set; }
-        [ForeignKey(nameof(autor_id))]
-        [Column("autor_id")]
-        public User autor { get; set; } = new User();
-        public int autor_id { get; set; }
+        public string? Content_text { get; set; }
+        [ForeignKey(nameof(Author_id))]
+        public User Author { get; set; } = new User();
+        [Column("author_id")]
+        public int Author_id { get; set; }
         
-        [Column("created")]
-        public DateTime Created { get; set; }
-        [Column("edit")]
+        /*[Column("created")]
+        public DateTime Created { get; set; }*/
+        /*[Column("edit")]
         public DateTime Edit { get; set; }
         [Column("likes")]
-        public int Likes { get; set; }
+        public int Likes { get; set; }*/
     }
 }

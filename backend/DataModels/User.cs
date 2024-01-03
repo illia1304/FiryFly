@@ -11,7 +11,6 @@ namespace backend.DataModels
         [Column("user_id")]
         public int User_id { get; set; }
 
-        [Required]
         [Column("name")]
         public string? Name { get; set; }
 
@@ -26,10 +25,5 @@ namespace backend.DataModels
         [DataType(DataType.EmailAddress)]
         [Column("email")]
         public string? Email { get; set; }
-
-        /*[Required]
-        [DataType(DataType.Password)]
-        [Column ("passwordHash")]
-        public string? PasswordHash { get; set; }*/
     }
 }

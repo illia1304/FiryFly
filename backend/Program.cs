@@ -16,6 +16,7 @@ builder.Services.AddAutoMapper(config => {
     config.CreateMap<User, GetUserDTO>();
     config.CreateMap<CreateUserDTO, User>();
     config.CreateMap<LongreadDTO, Longread>();
+    config.CreateMap<Longread, GetLongreadDTO>();
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

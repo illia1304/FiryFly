@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.DataModels;
@@ -11,9 +12,11 @@ using backend.DataModels;
 namespace backend.Migrations
 {
     [DbContext(typeof(Dbcontext))]
-    partial class DbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240102201059_UPD")]
+    partial class UPD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,13 +66,24 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Longread_id"));
 
-                    b.Property<int>("Author_id")
-                        .HasColumnType("integer")
-                        .HasColumnName("author_id");
+                    b.Property<int>("Autor_id")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Content_text")
                         .HasColumnType("text")
                         .HasColumnName("content_text");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<DateTime>("Edit")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("edit");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("integer")
+                        .HasColumnName("likes");
 
                     b.Property<string>("Title")
                         .HasColumnType("text")
@@ -77,7 +91,7 @@ namespace backend.Migrations
 
                     b.HasKey("Longread_id");
 
-                    b.HasIndex("Author_id");
+                    b.HasIndex("Autor_id");
 
                     b.ToTable("Longreads");
                 });
@@ -138,7 +152,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.DataModels.User", "Author")
                         .WithMany()
-                        .HasForeignKey("Author_id")
+                        .HasForeignKey("Autor_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

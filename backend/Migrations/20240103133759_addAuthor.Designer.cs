@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.DataModels;
@@ -11,9 +12,11 @@ using backend.DataModels;
 namespace backend.Migrations
 {
     [DbContext(typeof(Dbcontext))]
-    partial class DbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240103133759_addAuthor")]
+    partial class addAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +66,9 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Longread_id"));
 
-                    b.Property<int>("Author_id")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("integer")
-                        .HasColumnName("author_id");
+                        .HasColumnName("autor_id");
 
                     b.Property<string>("Content_text")
                         .HasColumnType("text")
@@ -77,7 +80,7 @@ namespace backend.Migrations
 
                     b.HasKey("Longread_id");
 
-                    b.HasIndex("Author_id");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Longreads");
                 });
@@ -138,7 +141,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.DataModels.User", "Author")
                         .WithMany()
-                        .HasForeignKey("Author_id")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

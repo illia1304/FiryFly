@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.DataModels;
@@ -11,9 +12,11 @@ using backend.DataModels;
 namespace backend.Migrations
 {
     [DbContext(typeof(Dbcontext))]
-    partial class DbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240103121915_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,10 +66,6 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Longread_id"));
 
-                    b.Property<int>("Author_id")
-                        .HasColumnType("integer")
-                        .HasColumnName("author_id");
-
                     b.Property<string>("Content_text")
                         .HasColumnType("text")
                         .HasColumnName("content_text");
@@ -76,8 +75,6 @@ namespace backend.Migrations
                         .HasColumnName("title");
 
                     b.HasKey("Longread_id");
-
-                    b.HasIndex("Author_id");
 
                     b.ToTable("Longreads");
                 });
@@ -132,17 +129,6 @@ namespace backend.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Longreads");
-                });
-
-            modelBuilder.Entity("backend.DataModels.Longread", b =>
-                {
-                    b.HasOne("backend.DataModels.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("Author_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

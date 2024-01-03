@@ -23,27 +23,30 @@ public class LongreadController : ControllerBase
     }
     
     [HttpPost("CreateLongread")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateLongread(CancellationToken cancellationToken, LongreadDTO longreadDTO){
-       int authorId = longreadDTO.AuthorId;
-        User user = await _dbContext.Users.FirstOrDefaultAsync(x => x.User_id == authorId);
-        if(user == null){
-            return NotFound(user);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateLongread(CancellationToken cancellationToken, LongreadDTO longreadDTO)
+        {
+            int authorId = longreadDTO.AuthorId;
+            User user = await _dbContext.Users.FirstOrDefaultAsync(x => x.User_id == authorId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var longread = new Longread
+            {
+                Title = longreadDTO.Title,
+                Content_text = longreadDTO.Content,
+                Author_id = longreadDTO.AuthorId
+            };
+
+            _dbContext.Add(longread);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(longread);
         }
 
-
-        var longread = new Longread{
-            Title = longreadDTO.Title,
-            content_text = longreadDTO.Content,
-            Created = DateTime.Now,
-            autor_id = longreadDTO.AuthorId
-        };
-        _dbContext.Add(longread);
-        await _dbContext.SaveChangesAsync();
-
-        return Ok(longread);
-    }
 
     [HttpGet("ShowLongreads")]
     [ProducesResponseType(StatusCodes.Status200OK)]
