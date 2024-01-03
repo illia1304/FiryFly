@@ -68,6 +68,22 @@ public class LongreadController : ControllerBase
         return Ok(result);
     }
 
-    //[HttpGet("ShowLongread{id}")]
+    [HttpGet("ShowLongread{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetLongreadById(CancellationToken cancellationToken, [FromRoute] int id){
+        var longread = await _dbContext.Longreads.FindAsync(id, cancellationToken);
+
+        if(longread is null){
+            return NotFound(id);
+        }
+        LongreadDTO longreadDTO = new LongreadDTO{
+            AuthorId = longread.Author_id,
+            CreatedAt = longread.Created,
+            Title = longread.Title,
+            Content = longread.Content_text
+        };
+        return Ok(longreadDTO);
+    }
 
 }
