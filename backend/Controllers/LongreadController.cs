@@ -23,36 +23,51 @@ public class LongreadController : ControllerBase
     }
     
     [HttpPost("CreateLongread")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateLongread(CancellationToken cancellationToken, LongreadDTO longreadDTO)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateLongread(CancellationToken cancellationToken, LongreadDTO longreadDTO)
+    {
+        int authorId = longreadDTO.AuthorId;
+        User user = await _dbContext.Users.FirstOrDefaultAsync(x => x.User_id == authorId);
+        if (user == null)
         {
-            int authorId = longreadDTO.AuthorId;
-            User user = await _dbContext.Users.FirstOrDefaultAsync(x => x.User_id == authorId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var longread = new Longread
-            {
-                Title = longreadDTO.Title,
-                Content_text = longreadDTO.Content,
-                Author_id = longreadDTO.AuthorId
-            };
-
-            _dbContext.Add(longread);
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(longread);
+            return NotFound();
         }
+            
+        var longread = new Longread
+        {
+            Title = longreadDTO.Title,
+            Content_text = longreadDTO.Content,
+            Author = user,
+            Created = longreadDTO.CreatedAt
+        };
+
+        _dbContext.Add(longread);
+        await _dbContext.SaveChangesAsync();
+        return Ok(longread);
+    }
 
 
     [HttpGet("ShowLongreads")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ShowAllLongreads(CancellationToken cancellationToken, [FromQuery] int start = 0, [FromQuery] int count = 10){
-        var all = await _dbContext.Longreads.Skip(start).Take(count).ToListAsync(cancellationToken);
-        return Ok(all.Select(c => _mapper.Map<Longread, GetLongreadDTO>(c)).ToList());
+        var all = await _dbContext.Longreads
+        .Include(l => l.Author)
+        .Skip(start)
+        .Take(count)
+        .ToListAsync(cancellationToken);
+
+        var result = all.Select(c => new GetLongreadDTO
+        {
+            Title = c.Title,
+            AutorName = c.Author.Nickname, 
+            CreatedAt = c.Created
+        }).ToList();
+
+        return Ok(result);
     }
+
+    //[HttpGet("ShowLongread{id}")]
+
 }

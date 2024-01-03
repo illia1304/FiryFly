@@ -19,11 +19,7 @@ namespace backend.DataModels
         [Column("author_id")]
         public int Author_id { get; set; }
         
-        /*[Column("created")]
-        public DateTime Created { get; set; }*/
-        /*[Column("edit")]
-        public DateTime Edit { get; set; }
-        [Column("likes")]
-        public int Likes { get; set; }*/
+        [Column("created")]
+        public DateTime Created { get; set; }
     }
 }
